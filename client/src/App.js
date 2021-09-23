@@ -1,16 +1,20 @@
 import React from 'react'
-import axios from 'axios'
+import Login from './components/Login'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Dashboard from './components/Dashboard'
+
+
+const code = new URLSearchParams(window.location.search).get('code')
+console.log('🦄 ~ code', code)
 
 function App() {
-  React.useEffect(() => {
-    const getData = async () => {
-      const res = await axios.get('/api/endpoint') // * <-- replace with your endpoint
-      console.log(res.data)
-    }
-    getData()
-  })
+ 
 
-  return <h1>Hello World</h1>
+  return <>
+    <Login/>
+    <Dashboard/>
+
+  </>
 }
 
 export default App
