@@ -2,6 +2,8 @@ import  express from 'express'
 // import { router } from './config/router.js'
 import cors from 'cors'
 import SpotifyWebApi  from 'spotify-web-api-node'
+import lyricsFinder from 'lyrics-finder'
+
 
 const app = express()
 app.use(cors())
@@ -67,3 +69,10 @@ app.post('/login', (req, res) => {
       res.sendStatus(400)
     })
 })
+app.get('/lyrics', async (req, res) => {
+  const lyrics =
+    (await lyricsFinder(req.query.artist, req.query.track)) || 'No Lyrics Found'
+  res.json({ lyrics })
+})
+
+app.listen(3001)
