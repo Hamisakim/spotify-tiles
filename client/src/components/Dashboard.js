@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import useAuth from '../useAuth'
 import { useState, useEffect } from 'react'
@@ -6,6 +7,7 @@ import TrackSearchResult from './TrackSearchResult'
 import { Container, Form } from 'react-bootstrap'
 import SpotifyWebApi from 'spotify-web-api-node'
 import axios from 'axios'
+import Tiles from './Tiles'
 
 const spotifyApi = new SpotifyWebApi({
   clientId: '9a1a788280984d31a644ce66849271bc',
@@ -17,8 +19,8 @@ const Dashboard = ({ code }) => {
   const [searchResults, setSearchResults] = useState([])
   const [playingTrack, setPlayingTrack] = useState()
   const [lyrics, setLyrics] = useState('')
-
-  function chooseTrack(track) {
+ 
+  const chooseTrack = (track) => {
     setPlayingTrack(track)
     setSearch('')
     setLyrics('')
@@ -26,7 +28,6 @@ const Dashboard = ({ code }) => {
 
   useEffect(() => {
     if (!playingTrack) return
-
     axios
       .get('http://localhost:8000/lyrics', {
         params: {
@@ -90,11 +91,18 @@ const Dashboard = ({ code }) => {
             chooseTrack={chooseTrack}
           />
         ))}
-        {searchResults.length === 0 && (
+
+        <Tiles
+          accessToken={accessToken}/>
+
+
+
+
+        {/* {searchResults.length === 0 && (
           <div className="text-center" style={{ whiteSpace: 'pre' }}>
             {lyrics}
           </div>
-        )}
+        )} */}
       </div>
       <div>
         <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
