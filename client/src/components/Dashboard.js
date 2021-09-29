@@ -75,6 +75,21 @@ const Dashboard = ({ code }) => {
     return () => (cancel = true)
   }, [search, accessToken])
 
+  useEffect(() => {
+    const getPlayingTrack = async () => {
+      try {
+        console.log('get playback state')
+        const response = await  axios.post('http://localhost:8000/user-current-playback-state', {
+          'accessToken': accessToken,
+        })
+        console.log('🦄 ~ getPlayingTrack ~ response', response)
+        setPlayingTrack(response.data.uri)
+      } catch (error) {
+        console.log('🦄 ~ useEffect ~ error', error)
+      }
+    }
+    getPlayingTrack()
+  },[accessToken])
   return (
     <Container className="d-flex flex-column py-2" style={{ height: '100vh' }}>
       <Form.Control

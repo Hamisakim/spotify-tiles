@@ -100,7 +100,6 @@ app.get('/tracks', async (req, res) => {
     })
 })
 
-
 app.post('/top-tracks', async (req, res) => {
   const spotifyApi = new SpotifyWebApi({
     redirectUri: 'http://localhost:3000',
@@ -129,11 +128,10 @@ app.post('/top-artists', async(req, res) => {
   spotifyApi.getMyTopArtists()
     .then(function(data) {
       const topArtists = data.body.items
-      console.log(topArtists)
       res.status(202).json(topArtists)
-
     }, function(err) {
       console.log('Something went wrong!', err)
+      res.status(500).json(err)
     })
 
 })
@@ -158,4 +156,29 @@ app.post('/recent-tracks', async (req, res) => {
   }, function(err) {
     console.log('Something went wrong!', err)
   })
+})
+
+
+app.post('/user-current-playback-state', async (req, res) => {
+  console.log('🦄 ~ app.post ~ req', req)
+  const spotifyApi = new SpotifyWebApi({
+    redirectUri: 'http://localhost:3000',
+    clientId: '9a1a788280984d31a644ce66849271bc',
+    clientSecret: '26eda315546b4858830e804260bce6ec',
+    accessToken: req.body.accessToken
+  })
+  spotifyApi.getMyCurrentPlaybackState()
+    .then(function(data) {
+      console.log('🦄 ~ .then ~ data', data.body)
+      // Output items
+      if (data.body && data.body.is_playing) {
+        console.log('User is currently playing something!')
+        res.status(202).json(data.body.item)
+
+      } else {
+        console.log('User is not playing anything, or doing so in private.')
+      }
+    }, function(err) {
+      console.log('Something went wrong!', err)
+    })
 })

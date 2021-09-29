@@ -1,0 +1,20 @@
+img {
+  transition: transform 0.3s ease;
+  float: left;
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+}
+.tile{
+  transition: transform 0.3s ease;
+  background-color: aliceblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction:column;
+  width: 50%;
+
+}
+.tile:hover {
+  transform: scale(1.2);
+}
